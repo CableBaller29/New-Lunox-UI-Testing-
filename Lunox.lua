@@ -199,7 +199,7 @@ local function AddToggle(parent, text, callback)
     Box.Size = UDim2.new(0.046,0,0.719,0)
     Box.AnchorPoint = Vector2.new(0.5, 0.5)
     Box.Position = UDim2.new(0.052, 0, 0.5, 0)
-    Box.BackgroundColor3 = Color3.fromRGB(50,50,50)
+    Box.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
     Box.Parent = Toggle
 
     local UIAspectRatioConstraint22 = Instance.new("UIAspectRatioConstraint")

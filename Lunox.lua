@@ -387,7 +387,8 @@ local function AddDropdown(parent, text, options, callback)
     Scroll.BackgroundColor3 = Theme.BoxOff
     Scroll.BackgroundTransparency = 0.2
     Scroll.Visible = false
-    Scroll.Parent = parent
+    Scroll.Position = UDim2.new(0,0,1,2)
+    Scroll.Parent = Dropdown
 
     local Layout = Instance.new("UIListLayout")
     Layout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -407,7 +408,9 @@ local function AddDropdown(parent, text, options, callback)
             end
         end
 
-        for _, opt in ipairs(options) do
+        local currentOptions = (type(options) == "function") and options() or options
+
+        for _, opt in ipairs(currentOptions) do
             local btn = Instance.new("TextButton")
             btn.Size = UDim2.new(1,0,0,28)
             btn.BackgroundColor3 = Theme.Background
@@ -426,11 +429,9 @@ local function AddDropdown(parent, text, options, callback)
             highlight.Visible = table.find(selectedOptions,opt) ~= nil
             highlight.Parent = btn
 
-            local selected = highlight.Visible
             btn.MouseButton1Click:Connect(function()
-                selected = not selected
-                highlight.Visible = selected
-                if selected then
+                highlight.Visible = not highlight.Visible
+                if highlight.Visible then
                     if not table.find(selectedOptions,opt) then
                         table.insert(selectedOptions,opt)
                     end
@@ -439,7 +440,7 @@ local function AddDropdown(parent, text, options, callback)
                         if v == opt then table.remove(selectedOptions,i) break end
                     end
                 end
-                if callback then callback(opt, selected) end
+                if callback then callback(opt, highlight.Visible) end
             end)
         end
     end

@@ -331,7 +331,7 @@ local function AddToggle(parent, text, callback)
         local UITextSizeConstraint23 = Instance.new("UITextSizeConstraint")
         UITextSizeConstraint23.MaxTextSize = 14
         UITextSizeConstraint23.MinTextSize = 1
-        UITextSizeConstraint23.Parentt = TextLabel
+        UITextSizeConstraint23.Parent = TextLabel
     end
 
     local toggled = false

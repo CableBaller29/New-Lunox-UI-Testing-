@@ -9,7 +9,7 @@ end
 
 local function MakeWindow(config)
     config = config or {}
-    local gameName = config.GameName or "Lunox Hub"
+    local gameName = config.GameName or "Unknown Name"
     local logo = config.Logo or "rbxassetid://107861639174297"
     local version = config.Version or "v0.0.1"
 
@@ -53,7 +53,7 @@ local function MakeWindow(config)
     Title.Size = UDim2.new(0.106,0,0.444,0)
     Title.BackgroundTransparency = 1
     Title.Font = Enum.Font.SourceSansBold
-    Title.Text = "|"
+    Title.Text = "Lunox Hub"
     Title.TextColor3 = Color3.new(1,1,1)
     Title.TextScaled = true
     Title.TextWrap = true

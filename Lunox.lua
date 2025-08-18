@@ -391,17 +391,14 @@ local function AddDropdown(parent, text, options, callback)
     end)
 
     local selectedOptions = {}
+    local optionButtons = {}
 
     local function RefreshOptions()
-        for _, child in ipairs(Scroll:GetChildren()) do
-            if child:IsA("TextButton") then
-                child:Destroy()
-            end
-        end
-
         local currentOptions = (type(options) == "function") and options() or options
 
         for _, opt in ipairs(currentOptions) do
+            if optionButtons[opt] then continue end -- skip if already exists
+
             local btn = Instance.new("TextButton")
             btn.Size = UDim2.new(1,0,0,28)
             btn.BackgroundColor3 = Theme.Background
@@ -433,6 +430,8 @@ local function AddDropdown(parent, text, options, callback)
                 end
                 if callback then callback(opt, highlight.Visible) end
             end)
+
+            optionButtons[opt] = btn
         end
     end
 

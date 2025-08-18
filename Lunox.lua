@@ -9,21 +9,33 @@ local function MakeWindow(config)
     local creator = config.Creator or "Unknown Creator"
     local logo = config.Logo or "rbxassetid://107861639174297"
 
+    -- ScreenGui
     local ScreenGui0 = Instance.new("ScreenGui")
     ScreenGui0.Name = "Lunox"
     ScreenGui0.Parent = game.CoreGui
     ScreenGui0.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+    -- Main Window
     local Frame1 = Instance.new("Frame")
     Frame1.Name = "Window"
     Frame1.Parent = ScreenGui0
     Frame1.Position = UDim2.new(0.5, 0, 0.5, 0)
-    Frame1.Size = UDim2.new(0.49636, 0, 0.59701, 0)
+    Frame1.Size = UDim2.new(0.35, 0, 0.45, 0)
     Frame1.AnchorPoint = Vector2.new(0.5, 0.5)
     Frame1.BackgroundColor3 = Color3.new(0, 0, 0)
     Frame1.BackgroundTransparency = 0.1
     Frame1.BorderSizePixel = 0
 
+    local UICorner92 = Instance.new("UICorner")
+    UICorner92.CornerRadius = UDim.new(0,6)
+    UICorner92.Parent = Frame1
+
+    local UIStroke = Instance.new("UIStroke")
+    UIStroke.Color = Color3.new(255,255,255)
+    UIStroke.Thickness = 2.4
+    UIStroke.Parent = Frame1
+
+    -- TopBar
     local Frame2 = Instance.new("Frame")
     Frame2.Name = "TopBar"
     Frame2.Parent = Frame1
@@ -31,6 +43,7 @@ local function MakeWindow(config)
     Frame2.BackgroundTransparency = 1
     Frame2.BorderSizePixel = 0
 
+    -- Title
     local TextLabel3 = Instance.new("TextLabel")
     TextLabel3.Name = "Title"
     TextLabel3.Parent = Frame2
@@ -46,6 +59,7 @@ local function MakeWindow(config)
     UITextSizeConstraint4.Parent = TextLabel3
     UITextSizeConstraint4.MaxTextSize = 20
 
+    -- Logo
     local ImageLabel5 = Instance.new("ImageLabel")
     ImageLabel5.Name = "Logo"
     ImageLabel5.Parent = Frame2
@@ -54,6 +68,7 @@ local function MakeWindow(config)
     ImageLabel5.BackgroundTransparency = 1
     ImageLabel5.Image = logo
 
+    -- Close Button
     local TextButton6 = Instance.new("TextButton")
     TextButton6.Name = "Close"
     TextButton6.Parent = Frame2
@@ -74,6 +89,7 @@ local function MakeWindow(config)
         ScreenGui0:Destroy()
     end)
 
+    -- Mini Button
     local TextButton8 = Instance.new("TextButton")
     TextButton8.Name = "Mini"
     TextButton8.Parent = Frame2
@@ -94,6 +110,7 @@ local function MakeWindow(config)
         Frame1.Visible = not Frame1.Visible
     end)
 
+    -- Aspect Ratios
     local UIAspectRatioConstraint10 = Instance.new("UIAspectRatioConstraint")
     UIAspectRatioConstraint10.Parent = Frame2
     UIAspectRatioConstraint10.AspectRatio = 16.66666
@@ -101,6 +118,7 @@ local function MakeWindow(config)
     UIAspectRatioConstraint11.Parent = Frame1
     UIAspectRatioConstraint11.AspectRatio = 1.5625
 
+    -- Dividers
     local Frame12 = Instance.new("Frame")
     Frame12.Name = "Divider"
     Frame12.Parent = Frame1
@@ -117,6 +135,7 @@ local function MakeWindow(config)
     Frame13.BackgroundColor3 = Color3.new(1, 1, 1)
     Frame13.BorderSizePixel = 0
 
+    -- Tabs
     local TabPanel = Instance.new("Frame")
     TabPanel.Name = "Tabs"
     TabPanel.Parent = Frame1
@@ -129,6 +148,7 @@ local function MakeWindow(config)
     UIListLayout15.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout15.Padding = UDim.new(0, 5)
 
+    -- Content Frame
     local Frame16 = Instance.new("Frame")
     Frame16.Name = "ContentFrame"
     Frame16.Parent = Frame1

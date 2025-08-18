@@ -380,14 +380,14 @@ local function AddDropdown(parent, text, options, callback)
 
     local Open = false
     local Scroll = Instance.new("ScrollingFrame")
-    Scroll.Size = UDim2.new(1,0,0,150)
+    Scroll.Size = UDim2.new(1,0,0,0)
+    Scroll.Position = UDim2.new(0,0,0,32)
     Scroll.CanvasSize = UDim2.new(0,0,0,0)
     Scroll.ScrollBarThickness = 6
     Scroll.BackgroundColor3 = Theme.BoxOff
     Scroll.BackgroundTransparency = 0.2
     Scroll.Visible = false
-    Scroll.Position = UDim2.new(0,0,1,2)
-    Scroll.Parent = Dropdown
+    Scroll.Parent = parent
 
     local Layout = Instance.new("UIListLayout")
     Layout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -396,6 +396,9 @@ local function AddDropdown(parent, text, options, callback)
 
     Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
         Scroll.CanvasSize = UDim2.new(0,0,0,Layout.AbsoluteContentSize.Y + 5)
+        if Open then
+            Scroll.Size = UDim2.new(1,0,0,math.min(Layout.AbsoluteContentSize.Y + 5, 150))
+        end
     end)
 
     local selectedOptions = {}
@@ -449,6 +452,8 @@ local function AddDropdown(parent, text, options, callback)
         Scroll.Visible = Open
         if Open then
             RefreshOptions()
+        else
+            Scroll.Size = UDim2.new(1,0,0,0)
         end
     end)
 

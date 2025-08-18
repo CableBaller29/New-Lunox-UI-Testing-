@@ -530,43 +530,54 @@ end)
     return SliderFrame
 end
 
-local function Notification(text, duration)
+local function Notification(title, description, duration)
     duration = duration or 3
 
     local ScreenGui = game.CoreGui:FindFirstChild("Lunox") or Instance.new("ScreenGui", game.CoreGui)
-    ScreenGui.Name = "Lunox"
+    ScreenGui.Name = "LunoxNotif"
     ScreenGui.ResetOnSpawn = false
 
     local notif = Instance.new("Frame")
-    notif.Size = UDim2.new(0,250,0,50)
-    notif.Position = UDim2.new(1,-260,1,-60)
-    notif.AnchorPoint = Vector2.new(0,0)
-    notif.BackgroundColor3 = Color3.fromRGB(35,35,35)
-    notif.BackgroundTransparency = 0
+    notif.Size = UDim2.new(0, 250, 0, 60)
+    notif.Position = UDim2.new(1, 10, 1, -70)
+    notif.AnchorPoint = Vector2.new(0, 0)
+    notif.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     notif.BorderSizePixel = 0
     notif.Parent = ScreenGui
 
     local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0,6)
+    corner.CornerRadius = UDim.new(0, 6)
     corner.Parent = notif
 
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, -10, 1, -10)
-    label.Position = UDim2.new(0,5,0,5)
-    label.BackgroundTransparency = 1
-    label.TextColor3 = Color3.fromRGB(255,255,255)
-    label.TextScaled = true
-    label.TextWrapped = true
-    label.Text = text
-    label.Parent = notif
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, -10, 0, 25)
+    titleLabel.Position = UDim2.new(0, 5, 0, 5)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.Font = Enum.Font.SourceSansBold
+    titleLabel.TextSize = 16
+    titleLabel.Text = title
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    titleLabel.Parent = notif
+
+    local descLabel = Instance.new("TextLabel")
+    descLabel.Size = UDim2.new(1, -10, 0, 25)
+    descLabel.Position = UDim2.new(0, 5, 0, 30)
+    descLabel.BackgroundTransparency = 1
+    descLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+    descLabel.Font = Enum.Font.SourceSans
+    descLabel.TextSize = 14
+    descLabel.Text = description
+    descLabel.TextXAlignment = Enum.TextXAlignment.Left
+    descLabel.TextWrapped = true
+    descLabel.Parent = notif
 
     local tweenService = game:GetService("TweenService")
-    notif.Position = UDim2.new(1,10,1,-60)
-    local tweenIn = tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(1,-260,1,-60)})
+    local tweenIn = tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(1, -260, 1, -70)})
     tweenIn:Play()
 
     task.delay(duration, function()
-        local tweenOut = tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1,10,1,-60)})
+        local tweenOut = tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1, 10, 1, -70)})
         tweenOut:Play()
         tweenOut.Completed:Connect(function()
             notif:Destroy()

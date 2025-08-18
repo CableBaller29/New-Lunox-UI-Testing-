@@ -3,6 +3,10 @@ local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local layoutCounters = {}
 
+if game.CoreGui:FindFirstChild("Lunox") then
+    game.CoreGui.Lunox:Destroy()
+end
+
 local function MakeWindow(config)
     config = config or {}
     local gameName = config.GameName or "Lunox Hub"

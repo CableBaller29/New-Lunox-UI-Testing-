@@ -23,6 +23,8 @@ local function MakeWindow(config)
     Frame.BackgroundTransparency = 0.1
     Frame.BorderSizePixel = 0
 
+    Frame.Draggable = true
+
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0,6)
     UICorner.Parent = Frame

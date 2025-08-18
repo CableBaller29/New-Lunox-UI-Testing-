@@ -21,6 +21,7 @@ local function MakeWindow(config)
     ScreenGui.Name = "Lunox"
     ScreenGui.Parent = game.CoreGui
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.ResetOnSpawn = false
 
     local Frame = Instance.new("Frame")
     Frame.Name = "Window"
@@ -31,7 +32,7 @@ local function MakeWindow(config)
     Frame.BackgroundColor3 = Color3.new(0,0,0)
     Frame.BackgroundTransparency = 0.1
     Frame.BorderSizePixel = 0
-    Frame.Draggable = true
+    Frame.Active = true
 
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0,6)
@@ -48,6 +49,14 @@ local function MakeWindow(config)
     TopBar.Size = UDim2.new(1,0,0.094,0)
     TopBar.BackgroundTransparency = 1
     TopBar.BorderSizePixel = 0
+
+    local DragHandle = Instance.new("Frame")
+    DragHandle.Name = "DragHandle"
+    DragHandle.Parent = TopBar
+    DragHandle.BackgroundTransparency = 1
+    DragHandle.Size = UDim2.new(1,0,1,0)
+    DragHandle.ZIndex = 10
+    DragHandle.Active = true
 
     local Title = Instance.new("TextLabel")
     Title.Name = "Title"
@@ -182,6 +191,42 @@ local function MakeWindow(config)
     ContentFrame.Size = UDim2.new(0.74,0,0.906,0)
     ContentFrame.AnchorPoint = Vector2.new(0.5,0.5)
     ContentFrame.BackgroundTransparency = 1
+
+    local UIS = game:GetService("UserInputService")
+    local dragging = false
+    local dragInput
+    local dragStart
+    local startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    DragHandle.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = Frame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    DragHandle.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+
+    UIS.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
 
     return {
         ScreenGui = ScreenGui,

@@ -396,8 +396,17 @@ local function AddDropdown(parent, text, options, callback)
     local function RefreshOptions()
         local currentOptions = (type(options) == "function") and options() or options
 
+        -- destroy buttons that no longer exist in options
+        for opt, btn in pairs(optionButtons) do
+            if not table.find(currentOptions, opt) then
+                btn:Destroy()
+                optionButtons[opt] = nil
+            end
+        end
+
+        -- add new buttons for new options
         for _, opt in ipairs(currentOptions) do
-            if optionButtons[opt] then continue end -- skip if already exists
+            if optionButtons[opt] then continue end
 
             local btn = Instance.new("TextButton")
             btn.Size = UDim2.new(1,0,0,28)

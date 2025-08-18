@@ -240,9 +240,10 @@ end
 local function AddToggle(parent, text, itemText, callback)
     layoutCounters[parent] = layoutCounters[parent] or 1
 
-    local Toggle = Instance.new("Frame")
+    local Toggle = Instance.new("TextButton")
     Toggle.Name = "ToggleButton"
     Toggle.BackgroundTransparency = 1
+    Toggle.Text = ""
     Toggle.Size = UDim2.new(1,0,0,50)
     Toggle.LayoutOrder = layoutCounters[parent]
     Toggle.Parent = parent
@@ -263,7 +264,7 @@ local function AddToggle(parent, text, itemText, callback)
     local Box = Instance.new("Frame")
     Box.Name = "Box"
     Box.Size = UDim2.new(0.059, 0, 0.625, 0)
-    Box.Position = UDim2.new(0.018,0,0.45,0) -- moved down
+    Box.Position = UDim2.new(0.018,0,0.45,0)
     Box.BackgroundColor3 = Color3.fromRGB(50,50,50)
     Box.Parent = Toggle
 

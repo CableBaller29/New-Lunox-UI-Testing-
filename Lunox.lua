@@ -13,6 +13,10 @@ local function MakeWindow(config)
     local logo = config.Logo or "rbxassetid://107861639174297"
     local version = config.Version or "v0.0.1"
 
+    if game.CoreGui:FindFirstChild("Lunox") then
+        game.CoreGui.Lunox:Destroy()
+    end
+
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "Lunox"
     ScreenGui.Parent = game.CoreGui
@@ -27,7 +31,6 @@ local function MakeWindow(config)
     Frame.BackgroundColor3 = Color3.new(0,0,0)
     Frame.BackgroundTransparency = 0.1
     Frame.BorderSizePixel = 0
-
     Frame.Draggable = true
 
     local UICorner = Instance.new("UICorner")
@@ -42,7 +45,7 @@ local function MakeWindow(config)
     local TopBar = Instance.new("Frame")
     TopBar.Name = "TopBar"
     TopBar.Parent = Frame
-    TopBar.Size = UDim2.new(1,0,0.09375,0)
+    TopBar.Size = UDim2.new(1,0,0.094,0)
     TopBar.BackgroundTransparency = 1
     TopBar.BorderSizePixel = 0
 
@@ -50,32 +53,31 @@ local function MakeWindow(config)
     Title.Name = "Title"
     Title.Parent = TopBar
     Title.Position = UDim2.new(0,0,0.222,0)
-    Title.Size = UDim2.new(0.106,0,0.444,0)
+    Title.Size = UDim2.new(0.252,0,0.444,0)
     Title.BackgroundTransparency = 1
     Title.Font = Enum.Font.SourceSansBold
     Title.Text = "Lunox Hub"
     Title.TextColor3 = Color3.new(1,1,1)
     Title.TextScaled = true
-    Title.TextWrap = true
-    local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint.MaxTextSize = 20
-    UITextSizeConstraint.MinTextSize = 1
-    UITextSizeConstraint.Parent = Title
+    Title.TextWrapped = true
+    local TitleConstraint = Instance.new("UITextSizeConstraint")
+    TitleConstraint.MaxTextSize = 20
+    TitleConstraint.Parent = Title
 
     local NewText = Instance.new("TextLabel")
     NewText.Name = "NewText"
     NewText.Parent = TopBar
     NewText.Position = UDim2.new(0.145,0,0.199,0)
-    NewText.Size = UDim2.new(0.252,0,0.44444,0)
+    NewText.Size = UDim2.new(0.106,0,0.44444,0)
     NewText.BackgroundTransparency = 1
     NewText.Font = Enum.Font.SourceSansBold
     NewText.Text = "|"
     NewText.TextColor3 = Color3.new(1,1,1)
     NewText.TextScaled = true
-    NewText.TextWrap = true
-    local UITextSizeConstraint223 = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint223.Parent = NewText
-    UITextSizeConstraint223.MaxTextSize = 20
+    NewText.TextWrapped = true
+    local NewTextConstraint = Instance.new("UITextSizeConstraint")
+    NewTextConstraint.MaxTextSize = 20
+    NewTextConstraint.Parent = NewText
 
     local NewText2 = Instance.new("TextLabel")
     NewText2.Name = "NewText2"
@@ -87,10 +89,10 @@ local function MakeWindow(config)
     NewText2.Text = gameName
     NewText2.TextColor3 = Color3.new(1,1,1)
     NewText2.TextScaled = true
-    NewText2.TextWrap = true
-    local UITextSizeConstraint3322 = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint3322.Parent = NewText2
-    UITextSizeConstraint3322.MaxTextSize = 20
+    NewText2.TextWrapped = true
+    local NewText2Constraint = Instance.new("UITextSizeConstraint")
+    NewText2Constraint.MaxTextSize = 20
+    NewText2Constraint.Parent = NewText2
 
     local VersionText = Instance.new("TextLabel")
     VersionText.Name = "VersionText"
@@ -102,16 +104,16 @@ local function MakeWindow(config)
     VersionText.Text = version
     VersionText.TextColor3 = Color3.new(1,1,1)
     VersionText.TextScaled = true
-    VersionText.TextWrap = true
-    local UITextSizeConstraint33223 = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint33223.Parent = NewText2
-    UITextSizeConstraint33223.MaxTextSize = 20
+    VersionText.TextWrapped = true
+    local VersionConstraint = Instance.new("UITextSizeConstraint")
+    VersionConstraint.MaxTextSize = 20
+    VersionConstraint.Parent = VersionText
 
     local Logo = Instance.new("ImageLabel")
     Logo.Name = "Logo"
     Logo.Parent = TopBar
     Logo.Position = UDim2.new(0.02646,0,0.22222,0)
-    Logo.Size = UDim2.new(0.024,0,0.44444,0)
+    Logo.Size = UDim2.new(0.05,0,0.44444,0)
     Logo.BackgroundTransparency = 1
     Logo.Image = logo
 
@@ -127,10 +129,10 @@ local function MakeWindow(config)
     CloseButton.Text = "x"
     CloseButton.TextColor3 = Color3.new(1,1,1)
     CloseButton.TextScaled = true
-    CloseButton.TextWrap = true
+    CloseButton.TextWrapped = true
     local CloseConstraint = Instance.new("UITextSizeConstraint")
-    CloseConstraint.Parent = CloseButton
     CloseConstraint.MaxTextSize = 25
+    CloseConstraint.Parent = CloseButton
     CloseButton.MouseButton1Click:Connect(function()
         ScreenGui:Destroy()
     end)
@@ -147,10 +149,10 @@ local function MakeWindow(config)
     MiniButton.Text = "-"
     MiniButton.TextColor3 = Color3.new(1,1,1)
     MiniButton.TextScaled = true
-    MiniButton.TextWrap = true
+    MiniButton.TextWrapped = true
     local MiniConstraint = Instance.new("UITextSizeConstraint")
-    MiniConstraint.Parent = MiniButton
     MiniConstraint.MaxTextSize = 25
+    MiniConstraint.Parent = MiniButton
     MiniButton.MouseButton1Click:Connect(function()
         Frame.Visible = not Frame.Visible
     end)

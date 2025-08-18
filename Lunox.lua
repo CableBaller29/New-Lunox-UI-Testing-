@@ -502,10 +502,11 @@ local function AddSlider(parent, text, min, max, default, callback)
     end
 
     SliderBar.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-        end
-    end)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        input:Capture()
+    end
+end)
 
     SliderBar.InputChanged:Connect(function(input)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then

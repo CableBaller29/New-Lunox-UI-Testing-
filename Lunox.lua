@@ -577,6 +577,20 @@ local function Notification(title, description, duration)
     end)
 end
 
+local function AddLabel(parent, text)
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(1, 0, 0, 28)
+    Label.BackgroundTransparency = 1
+    Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Label.TextScaled = true
+    Label.Text = text
+    Label.Font = Enum.Font.Gotham
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.LayoutOrder = parent.LayoutOrder or 1
+    Label.Parent = parent
+    return Label
+end
+
 LunoxLib.MakeWindow = MakeWindow
 LunoxLib.AddTab = AddTab
 LunoxLib.AddToggle = AddToggle
@@ -584,5 +598,6 @@ LunoxLib.AddButton = AddButton
 LunoxLib.AddDropdown = AddDropdown
 LunoxLib.AddSlider = AddSlider
 LunoxLib.Notification = Notification
+LunoxLib.AddLabel = AddLabel
 
 return LunoxLib

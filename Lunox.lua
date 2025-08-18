@@ -264,7 +264,6 @@ local function AddTab(window, name, isFirst)
 end
 
 local function AddToggle(parent, text, callback)
-    layoutCounters[parent] = layoutCounters[parent] or 1
 
     local Toggle = Instance.new("TextButton")
     Toggle.Name = "ToggleButton"

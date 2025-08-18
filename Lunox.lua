@@ -269,22 +269,17 @@ local function AddToggle(parent, text, callback)
     Toggle.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
     Toggle.BackgroundTransparency = 0.7
     Toggle.Size = UDim2.new(1,0,0,32)
-    Toggle.LayoutOrder = layoutCounters[parent]
+    Toggle.LayoutOrder = layoutCounters[parent] or 0
+    Toggle.AutoButtonColor = false
     Toggle.Parent = parent
 
     local Box = Instance.new("Frame")
     Box.Name = "Box"
-    Box.Size = UDim2.new(0.046,0,0.719,0)
-    Box.AnchorPoint = Vector2.new(0.5, 0.5)
-    Box.Position = UDim2.new(0.052, 0, 0.5, 0)
-    Box.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
+    Box.Size = UDim2.new(0.046,0,0.72,0)
+    Box.Position = UDim2.new(0.05, 0, 0.5, 0)
+    Box.AnchorPoint = Vector2.new(0.5,0.5)
+    Box.BackgroundColor3 = Color3.fromRGB(16,16,16)
     Box.Parent = Toggle
-
-    local UIAspectRatioConstraint22 = Instance.new("UIAspectRatioConstraint")
-    UIAspectRatioConstraint22.AspectRatio = 0.992
-    UIAspectRatioConstraint22.AspectType = Enum.AspectType.FitWithinMaxSize
-    UIAspectRatioConstraint22.DominantAxis = Enum.DominantAxis.Width
-    UIAspectRatioConstraint22.Parent = Box
 
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0,4)
@@ -292,28 +287,25 @@ local function AddToggle(parent, text, callback)
 
     if text then
         local TextLabel = Instance.new("TextLabel")
-        TextLabel.Size = UDim2.new(0.309,0,0.682,0)
-        TextLabel.Position = UDim2.new(0.114,0,0.156,0)
+        TextLabel.Size = UDim2.new(0.8,0,1,0)
+        TextLabel.Position = UDim2.new(0.12,0,0,0)
         TextLabel.BackgroundTransparency = 1
         TextLabel.TextColor3 = Color3.fromRGB(255,255,255)
         TextLabel.TextScaled = true
         TextLabel.Text = text
+        TextLabel.TextXAlignment = Enum.TextXAlignment.Left
         TextLabel.Parent = Toggle
 
-        local UITextSizeConstraint23 = Instance.new("UITextSizeConstraint")
-        UITextSizeConstraint23.MaxTextSize = 14
-        UITextSizeConstraint23.MinTextSize = 1
-        UITextSizeConstraint23.Parent = TextLabel
+        local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+        UITextSizeConstraint.MaxTextSize = 14
+        UITextSizeConstraint.MinTextSize = 10
+        UITextSizeConstraint.Parent = TextLabel
     end
 
     local toggled = false
     Toggle.MouseButton1Click:Connect(function()
         toggled = not toggled
-        if toggled then
-            Box.BackgroundColor3 = Color3.fromRGB(138,138,138)
-        else
-            Box.BackgroundColor3 = Color3.fromRGB(16,16,16)
-        end
+        Box.BackgroundColor3 = toggled and Color3.fromRGB(138,138,138) or Color3.fromRGB(16,16,16)
         if callback then callback(toggled) end
     end)
 

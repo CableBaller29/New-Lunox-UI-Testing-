@@ -49,7 +49,7 @@ local function MakeWindow(config)
     local Title = Instance.new("TextLabel")
     Title.Name = "Title"
     Title.Parent = TopBar
-    Title.Position = UDim2.new(0.145,0,0.199,0)
+    Title.Position = UDim2.new(0,0,0.222,0)
     Title.Size = UDim2.new(0.106,0,0.444,0)
     Title.BackgroundTransparency = 1
     Title.Font = Enum.Font.SourceSansBold
@@ -58,13 +58,14 @@ local function MakeWindow(config)
     Title.TextScaled = true
     Title.TextWrap = true
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint.Parent = Title
     UITextSizeConstraint.MaxTextSize = 20
+    UITextSizeConstraint.MinTextSize = 1
+    UITextSizeConstraint.Parent = Title
 
     local NewText = Instance.new("TextLabel")
     NewText.Name = "NewText"
     NewText.Parent = TopBar
-    NewText.Position = UDim2.new(0,0,0.22222,0)
+    NewText.Position = UDim2.new(0.145,0,0.199,0)
     NewText.Size = UDim2.new(0.252,0,0.44444,0)
     NewText.BackgroundTransparency = 1
     NewText.Font = Enum.Font.SourceSansBold

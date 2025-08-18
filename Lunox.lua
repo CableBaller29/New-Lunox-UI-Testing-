@@ -215,7 +215,7 @@ local function AddTab(window, name, isFirst)
 
     local UITextSizeConstraint93 = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint93.MaxTextSize = 16
-    UITextSizeConstraint93.MinTextSize = 1
+    UITextSizeConstraint93.MinTextSize = 16
     UITextSizeConstraint93.Parent = TabTitle
 
     local Container = Instance.new("ScrollingFrame")
@@ -320,8 +320,144 @@ local function AddToggle(parent, text, callback)
     return Toggle
 end
 
+local function AddButton(parent, text, callback)
+    local Button = Instance.new("TextButton")
+    Button.Name = "Button"
+    Button.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
+    Button.BackgroundTransparency = 0.7
+    Button.Size = UDim2.new(1,0,0,32)
+    Button.Parent = parent
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0,4)
+    UICorner.Parent = Button
+
+    if text then
+        local TextLabel = Instance.new("TextLabel")
+        TextLabel.Size = UDim2.new(1,0,1,0)
+        TextLabel.Position = UDim2.new(0,0,0,0)
+        TextLabel.BackgroundTransparency = 1
+        TextLabel.TextColor3 = Color3.fromRGB(255,255,255)
+        TextLabel.TextScaled = true
+        TextLabel.Text = text
+        TextLabel.Parent = Button
+
+        local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+        UITextSizeConstraint.MaxTextSize = 14
+        UITextSizeConstraint.MinTextSize = 1
+        UITextSizeConstraint.Parent = TextLabel
+    end
+
+    Button.MouseButton1Click:Connect(function()
+        if callback then callback() end
+    end)
+
+    return Button
+end
+
+local function AddDropdown(parent, text, options, callback)
+    local Theme = {
+        Background = Color3.fromRGB(60, 60, 60),
+        BoxOff = Color3.fromRGB(45, 45, 45),
+        Text = Color3.fromRGB(255, 255, 255),
+        Accent = Color3.fromRGB(0, 200, 0)
+    }
+
+    local Dropdown = Instance.new("TextButton")
+    Dropdown.Name = text
+    Dropdown.Size = UDim2.new(1,0,0,32)
+    Dropdown.BackgroundColor3 = Theme.Background
+    Dropdown.TextColor3 = Theme.Text
+    Dropdown.Font = Enum.Font.Gotham
+    Dropdown.TextSize = 14
+    Dropdown.Text = text
+    Dropdown.AutoButtonColor = false
+    Dropdown.Parent = parent
+    Instance.new("UICorner", Dropdown).CornerRadius = UDim.new(0,6)
+
+    local Open = false
+    local Scroll = Instance.new("ScrollingFrame")
+    Scroll.Size = UDim2.new(1,0,0,150)
+    Scroll.CanvasSize = UDim2.new(0,0,0,0)
+    Scroll.ScrollBarThickness = 6
+    Scroll.BackgroundColor3 = Theme.BoxOff
+    Scroll.BackgroundTransparency = 0.2
+    Scroll.Visible = false
+    Scroll.Parent = parent
+
+    local Layout = Instance.new("UIListLayout")
+    Layout.SortOrder = Enum.SortOrder.LayoutOrder
+    Layout.Padding = UDim.new(0,3)
+    Layout.Parent = Scroll
+
+    Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        Scroll.CanvasSize = UDim2.new(0,0,0,Layout.AbsoluteContentSize.Y + 5)
+    end)
+
+    local selectedOptions = {}
+
+    local function RefreshOptions()
+        for _, child in ipairs(Scroll:GetChildren()) do
+            if child:IsA("TextButton") then
+                child:Destroy()
+            end
+        end
+
+        for _, opt in ipairs(options) do
+            local btn = Instance.new("TextButton")
+            btn.Size = UDim2.new(1,0,0,28)
+            btn.BackgroundColor3 = Theme.Background
+            btn.TextColor3 = Theme.Text
+            btn.Font = Enum.Font.Gotham
+            btn.TextSize = 14
+            btn.Text = opt
+            btn.AutoButtonColor = true
+            btn.Parent = Scroll
+            Instance.new("UICorner", btn).CornerRadius = UDim.new(0,5)
+
+            local highlight = Instance.new("Frame")
+            highlight.Size = UDim2.new(0.03,0,1,0)
+            highlight.Position = UDim2.new(0,0,0,0)
+            highlight.BackgroundColor3 = Theme.Accent
+            highlight.Visible = table.find(selectedOptions,opt) ~= nil
+            highlight.Parent = btn
+
+            local selected = highlight.Visible
+            btn.MouseButton1Click:Connect(function()
+                selected = not selected
+                highlight.Visible = selected
+                if selected then
+                    if not table.find(selectedOptions,opt) then
+                        table.insert(selectedOptions,opt)
+                    end
+                else
+                    for i,v in ipairs(selectedOptions) do
+                        if v == opt then table.remove(selectedOptions,i) break end
+                    end
+                end
+                if callback then callback(opt, selected) end
+            end)
+        end
+    end
+
+    Dropdown.MouseButton1Click:Connect(function()
+        Open = not Open
+        Scroll.Visible = Open
+        if Open then
+            RefreshOptions()
+        end
+    end)
+
+    return {
+        Refresh = RefreshOptions,
+        GetSelected = function() return selectedOptions end
+    }
+end
+
 LunoxLib.MakeWindow = MakeWindow
 LunoxLib.AddTab = AddTab
 LunoxLib.AddToggle = AddToggle
+LunoxLib.AddButton = AddButton
+LunoxLib.AddDropdown = AddDropdown
 
 return LunoxLib

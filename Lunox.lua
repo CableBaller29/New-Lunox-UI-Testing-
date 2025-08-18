@@ -214,8 +214,8 @@ local function AddTab(window, name, isFirst)
     TabTitle.Parent = TabButton
 
     local UITextSizeConstraint93 = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint93.MaxTextSize = 14
-    UITextSizeConstraint93.MinTextSize = 14
+    UITextSizeConstraint93.MaxTextSize = 15
+    UITextSizeConstraint93.MinTextSize = 15
     UITextSizeConstraint93.Parent = TabTitle
 
     local Container = Instance.new("ScrollingFrame")

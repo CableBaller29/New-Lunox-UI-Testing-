@@ -213,8 +213,8 @@ local function AddToggle(parent, text, callback)
 
     if text then
         local TextLabel = Instance.new("TextLabel")
-        TextLabel.Size = UDim2.new(0.85,0,1,0)
-        TextLabel.Position = UDim2.new(0.1,0,0,0)
+        TextLabel.Size = UDim2.new(0.309,0,0.682,0)
+        TextLabel.Position = UDim2.new(0.114,0,0.156,0)
         TextLabel.BackgroundTransparency = 1
         TextLabel.TextColor3 = Color3.fromRGB(255,255,255)
         TextLabel.TextScaled = true

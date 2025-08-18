@@ -197,7 +197,8 @@ local function AddToggle(parent, text, callback)
     local Box = Instance.new("Frame")
     Box.Name = "Box"
     Box.Size = UDim2.new(0.046,0,0.719,0)
-    Box.Position = UDim2.new(0.036,0,0.281,0)
+    Box.AnchorPoint = Vector2.new(0, 0.5)
+    Box.Position = UDim2.new(0.036, 0, 0.5, 0)
     Box.BackgroundColor3 = Color3.fromRGB(50,50,50)
     Box.Parent = Toggle
 

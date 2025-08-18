@@ -586,7 +586,6 @@ local function AddLabel(parent, text)
     Label.Text = text
     Label.Font = Enum.Font.Gotham
     Label.TextXAlignment = Enum.TextXAlignment.Left
-    Label.LayoutOrder = parent.LayoutOrder or 1
     Label.Parent = parent
     return Label
 end

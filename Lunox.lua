@@ -310,9 +310,9 @@ local function AddToggle(parent, text, callback)
     Toggle.MouseButton1Click:Connect(function()
         toggled = not toggled
         if toggled then
-            Box.BackgroundColor3 = Color3.fromRGB(0,200,0)
+            Box.BackgroundColor3 = Color3.fromRGB(138,138,138)
         else
-            Box.BackgroundColor3 = Color3.fromRGB(50,50,50)
+            Box.BackgroundColor3 = Color3.fromRGB(16,16,16)
         end
         if callback then callback(toggled) end
     end)
@@ -358,9 +358,9 @@ end
 local function AddDropdown(parent, text, options, callback)
     local Theme = {
         Background = Color3.fromRGB(60, 60, 60),
-        BoxOff = Color3.fromRGB(45, 45, 45),
+        BoxOff = Color3.fromRGB(16,16,16),
         Text = Color3.fromRGB(255, 255, 255),
-        Accent = Color3.fromRGB(0, 200, 0)
+        Accent = Color3.fromRGB(89, 89, 89)
     }
 
     local Dropdown = Instance.new("TextButton")

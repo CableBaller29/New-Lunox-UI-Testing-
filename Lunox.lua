@@ -492,6 +492,14 @@ local function AddSlider(parent, text, min, max, default, callback)
     FillCorner.Parent = Fill
 
     local dragging = false
+    local finalValue = default
+
+    local function update(pos)
+        local relative = math.clamp((pos.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
+        Fill.Size = UDim2.new(relative,0,1,0)
+        finalValue = math.floor(min + (max-min)*relative)
+        Label.Text = text .. ": " .. finalValue
+    end
 
     SliderBar.InputBegan:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -499,35 +507,22 @@ local function AddSlider(parent, text, min, max, default, callback)
         end
     end)
 
-    SliderBar.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
+    SliderBar.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            update(input.Position)
         end
     end)
 
-    SliderBar.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
-            local function update(pos)
-                local relative = math.clamp((pos.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
-                Fill.Size = UDim2.new(relative,0,1,0)
-                local value = math.floor(min + (max-min)*relative)
-                Label.Text = text .. ": " .. value
-                if callback then callback(value) end
-            end
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then dragging = false end
-            end)
-            if dragging then update(input.Position) end
+    SliderBar.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 and dragging then
+            dragging = false
+            if callback then callback(finalValue) end
         end
     end)
 
     game:GetService("UserInputService").InputChanged:Connect(function(input)
         if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-            local relative = math.clamp((input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
-            Fill.Size = UDim2.new(relative,0,1,0)
-            local value = math.floor(min + (max-min)*relative)
-            Label.Text = text .. ": " .. value
-            if callback then callback(value) end
+            update(input.Position)
         end
     end)
 

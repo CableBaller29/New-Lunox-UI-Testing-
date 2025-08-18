@@ -11,6 +11,7 @@ local function MakeWindow(config)
     config = config or {}
     local gameName = config.GameName or "Lunox Hub"
     local logo = config.Logo or "rbxassetid://107861639174297"
+    local version = config.Version or "v0.0.1"
 
     local ScreenGui = Instance.new("ScreenGui")
     ScreenGui.Name = "Lunox"
@@ -48,17 +49,62 @@ local function MakeWindow(config)
     local Title = Instance.new("TextLabel")
     Title.Name = "Title"
     Title.Parent = TopBar
-    Title.Position = UDim2.new(0,0,0.22222,0)
-    Title.Size = UDim2.new(0.252,0,0.44444,0)
+    Title.Position = UDim2.new(0.145,0,0.199,0)
+    Title.Size = UDim2.new(0.106,0,0.444,0)
     Title.BackgroundTransparency = 1
     Title.Font = Enum.Font.SourceSansBold
-    Title.Text = gameName
+    Title.Text = "|"
     Title.TextColor3 = Color3.new(1,1,1)
     Title.TextScaled = true
     Title.TextWrap = true
     local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
     UITextSizeConstraint.Parent = Title
     UITextSizeConstraint.MaxTextSize = 20
+
+    local NewText = Instance.new("TextLabel")
+    NewText.Name = "NewText"
+    NewText.Parent = TopBar
+    NewText.Position = UDim2.new(0,0,0.22222,0)
+    NewText.Size = UDim2.new(0.252,0,0.44444,0)
+    NewText.BackgroundTransparency = 1
+    NewText.Font = Enum.Font.SourceSansBold
+    NewText.Text = "|"
+    NewText.TextColor3 = Color3.new(1,1,1)
+    NewText.TextScaled = true
+    NewText.TextWrap = true
+    local UITextSizeConstraint223 = Instance.new("UITextSizeConstraint")
+    UITextSizeConstraint223.Parent = NewText
+    UITextSizeConstraint223.MaxTextSize = 20
+
+    local NewText2 = Instance.new("TextLabel")
+    NewText2.Name = "NewText2"
+    NewText2.Parent = TopBar
+    NewText2.Position = UDim2.new(0.169,0,0.222,0)
+    NewText2.Size = UDim2.new(0.252,0,0.444,0)
+    NewText2.BackgroundTransparency = 1
+    NewText2.Font = Enum.Font.SourceSansBold
+    NewText2.Text = gameName
+    NewText2.TextColor3 = Color3.new(1,1,1)
+    NewText2.TextScaled = true
+    NewText2.TextWrap = true
+    local UITextSizeConstraint3322 = Instance.new("UITextSizeConstraint")
+    UITextSizeConstraint3322.Parent = NewText2
+    UITextSizeConstraint3322.MaxTextSize = 20
+
+    local VersionText = Instance.new("TextLabel")
+    VersionText.Name = "VersionText"
+    VersionText.Parent = TopBar
+    VersionText.Position = UDim2.new(0.358,0,0.222,0)
+    VersionText.Size = UDim2.new(0.195,0,0.444,0)
+    VersionText.BackgroundTransparency = 1
+    VersionText.Font = Enum.Font.SourceSansBold
+    VersionText.Text = version
+    VersionText.TextColor3 = Color3.new(1,1,1)
+    VersionText.TextScaled = true
+    VersionText.TextWrap = true
+    local UITextSizeConstraint33223 = Instance.new("UITextSizeConstraint")
+    UITextSizeConstraint33223.Parent = NewText2
+    UITextSizeConstraint33223.MaxTextSize = 20
 
     local Logo = Instance.new("ImageLabel")
     Logo.Name = "Logo"

@@ -533,9 +533,7 @@ end
 local function Notification(title, description, duration)
     duration = duration or 3
 
-    local ScreenGui = game.CoreGui:FindFirstChild("Lunox") or Instance.new("ScreenGui", game.CoreGui)
-    ScreenGui.Name = "LunoxNotif"
-    ScreenGui.ResetOnSpawn = false
+    local ScreenGui = game.CoreGui:FindFirstChild("Lunox")
 
     local notif = Instance.new("Frame")
     notif.Size = UDim2.new(0, 250, 0, 60)

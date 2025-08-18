@@ -9,13 +9,11 @@ local function MakeWindow(config)
     local creator = config.Creator or "Unknown Creator"
     local logo = config.Logo or "rbxassetid://107861639174297"
 
-    -- ScreenGui
     local ScreenGui0 = Instance.new("ScreenGui")
     ScreenGui0.Name = "Lunox"
     ScreenGui0.Parent = game.CoreGui
     ScreenGui0.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-    -- Main Window
     local Frame1 = Instance.new("Frame")
     Frame1.Name = "Window"
     Frame1.Parent = ScreenGui0
@@ -26,7 +24,6 @@ local function MakeWindow(config)
     Frame1.BackgroundTransparency = 0.1
     Frame1.BorderSizePixel = 0
 
-    -- TopBar
     local Frame2 = Instance.new("Frame")
     Frame2.Name = "TopBar"
     Frame2.Parent = Frame1
@@ -34,7 +31,6 @@ local function MakeWindow(config)
     Frame2.BackgroundTransparency = 1
     Frame2.BorderSizePixel = 0
 
-    -- Title
     local TextLabel3 = Instance.new("TextLabel")
     TextLabel3.Name = "Title"
     TextLabel3.Parent = Frame2
@@ -50,7 +46,6 @@ local function MakeWindow(config)
     UITextSizeConstraint4.Parent = TextLabel3
     UITextSizeConstraint4.MaxTextSize = 20
 
-    -- Logo
     local ImageLabel5 = Instance.new("ImageLabel")
     ImageLabel5.Name = "Logo"
     ImageLabel5.Parent = Frame2
@@ -59,7 +54,6 @@ local function MakeWindow(config)
     ImageLabel5.BackgroundTransparency = 1
     ImageLabel5.Image = logo
 
-    -- Close Button
     local TextButton6 = Instance.new("TextButton")
     TextButton6.Name = "Close"
     TextButton6.Parent = Frame2
@@ -80,7 +74,6 @@ local function MakeWindow(config)
         ScreenGui0:Destroy()
     end)
 
-    -- Mini Button
     local TextButton8 = Instance.new("TextButton")
     TextButton8.Name = "Mini"
     TextButton8.Parent = Frame2
@@ -101,7 +94,6 @@ local function MakeWindow(config)
         Frame1.Visible = not Frame1.Visible
     end)
 
-    -- Aspect Ratios
     local UIAspectRatioConstraint10 = Instance.new("UIAspectRatioConstraint")
     UIAspectRatioConstraint10.Parent = Frame2
     UIAspectRatioConstraint10.AspectRatio = 16.66666
@@ -109,7 +101,6 @@ local function MakeWindow(config)
     UIAspectRatioConstraint11.Parent = Frame1
     UIAspectRatioConstraint11.AspectRatio = 1.5625
 
-    -- Dividers
     local Frame12 = Instance.new("Frame")
     Frame12.Name = "Divider"
     Frame12.Parent = Frame1
@@ -126,7 +117,6 @@ local function MakeWindow(config)
     Frame13.BackgroundColor3 = Color3.new(1, 1, 1)
     Frame13.BorderSizePixel = 0
 
-    -- Tabs
     local TabPanel = Instance.new("Frame")
     TabPanel.Name = "Tabs"
     TabPanel.Parent = Frame1
@@ -139,7 +129,6 @@ local function MakeWindow(config)
     UIListLayout15.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout15.Padding = UDim.new(0, 5)
 
-    -- Content Frame
     local Frame16 = Instance.new("Frame")
     Frame16.Name = "ContentFrame"
     Frame16.Parent = Frame1
@@ -266,3 +255,11 @@ local function AddToggle(parent, text, itemText, callback)
 
     return Toggle
 end
+
+-- Export functions
+LunoxLib.MakeWindow = MakeWindow
+LunoxLib.AddTab = AddTab
+LunoxLib.AddSection = AddSection
+LunoxLib.AddToggle = AddToggle
+
+return LunoxLib

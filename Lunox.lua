@@ -143,8 +143,8 @@ local function AddTab(window, name, isFirst)
 
     local TabTitle = Instance.new("TextLabel")
     TabTitle.Text = name
-    TabTitle.Size = UDim2.new(0.8,0,1,0)
-    TabTitle.Position = UDim2.new(0.05,0,0,0)
+    TabTitle.Size = UDim2.new(0.354,0,0.667,0)
+    TabTitle.Position = UDim2.new(0.043,0,0.2,0)
     TabTitle.BackgroundTransparency = 1
     TabTitle.TextScaled = true
     TabTitle.TextColor3 = Color3.fromRGB(255,255,255)
@@ -186,7 +186,8 @@ local function AddToggle(parent, text, callback)
 
     local Toggle = Instance.new("TextButton")
     Toggle.Name = "ToggleButton"
-    Toggle.BackgroundTransparency = 1
+    Toggle.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
+    Toggle.BackgroundTransparency = 0.7
     Toggle.Size = UDim2.new(1,0,0,32)
     Toggle.LayoutOrder = layoutCounters[parent]
     Toggle.Parent = parent
@@ -195,10 +196,16 @@ local function AddToggle(parent, text, callback)
 
     local Box = Instance.new("Frame")
     Box.Name = "Box"
-    Box.Size = UDim2.new(0.059,0,0.625,0)
-    Box.Position = UDim2.new(0.018,0,0.188,0)
+    Box.Size = UDim2.new(0.046,0,0.719,0)
+    Box.Position = UDim2.new(0.036,0,0.281,0)
     Box.BackgroundColor3 = Color3.fromRGB(50,50,50)
     Box.Parent = Toggle
+
+    local UIAspectRatioConstraint22 = Instance.new("UIAspectRatioConstraint")
+    UIAspectRatioConstraint22.AspectRatio = 0.992
+    UIAspectRatioConstraint22.AspectType = Enum.AspectType.FitWithinMaxSize
+    UIAspectRatioConstraint22.DominantAxis = Enum.DominantAxis.Width
+    UIAspectRatioConstraint22.Parent = Box
 
     local UICorner = Instance.new("UICorner")
     UICorner.CornerRadius = UDim.new(0,4)
@@ -213,6 +220,11 @@ local function AddToggle(parent, text, callback)
         TextLabel.TextScaled = true
         TextLabel.Text = text
         TextLabel.Parent = Toggle
+
+        local UITextSizeConstraint23 = Instance.new("UITextSizeConstraint")
+        UITextSizeConstraint23.MaxTextSize = 14
+        UITextSizeConstraint23.MinTextSize = 1
+        UITextSizeConstraint23.Parentt = TextLabel
     end
 
     local toggled = false

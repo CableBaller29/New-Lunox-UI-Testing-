@@ -149,12 +149,12 @@ local function MakeWindow(config)
     }
 end
 
-local function AddTab(name, isFirst)
+local function AddTab(window, name, isFirst)
     local TabButton = Instance.new("TextButton")
     TabButton.BackgroundTransparency = 1
     TabButton.Size = UDim2.new(1, 0, 0, 30)
     TabButton.Text = ""
-    TabButton.Parent = TabPanel
+    TabButton.Parent = window.TabsFrame
 
     local TabTitle = Instance.new("TextLabel")
     TabTitle.Text = name
@@ -170,7 +170,7 @@ local function AddTab(name, isFirst)
     Container.Position = UDim2.new(0,0,0,0)
     Container.BackgroundTransparency = 1
     Container.Visible = false
-    Container.Parent = ContentFrame
+    Container.Parent = window.ContentFrame
 
     local Layout = Instance.new("UIListLayout")
     Layout.SortOrder = Enum.SortOrder.LayoutOrder

@@ -214,17 +214,27 @@ end
 local function AddSection(parent, sectionName)
     layoutCounters[parent] = layoutCounters[parent] or 1
 
+    local container = Instance.new("Frame")
+    container.Name = sectionName .. "_Container"
+    container.Size = UDim2.new(1,0,0,0)
+    container.BackgroundTransparency = 1
+    container.LayoutOrder = layoutCounters[parent]
+    container.Parent = parent
+
+    local layout = Instance.new("UIListLayout")
+    layout.SortOrder = Enum.SortOrder.LayoutOrder
+    layout.Parent = container
+
     local label = Instance.new("TextLabel")
-    label.Name = "SectionLabel"
-    label.Size = UDim2.new(1, 0, 0, 30)
+    label.Size = UDim2.new(1,0,0,30)
     label.Text = sectionName
     label.TextColor3 = Color3.fromRGB(255,255,255)
     label.BackgroundTransparency = 1
-    label.LayoutOrder = layoutCounters[parent]
-    label.Parent = parent
+    label.LayoutOrder = 1
+    label.Parent = container
 
     layoutCounters[parent] = layoutCounters[parent] + 1
-    return label
+    return container
 end
 
 local function AddToggle(parent, text, itemText, callback)

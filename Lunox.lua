@@ -264,7 +264,6 @@ local function AddTab(window, name, isFirst)
 end
 
 local function AddToggle(parent, text, callback)
-
     local Toggle = Instance.new("TextButton")
     Toggle.Name = "ToggleButton"
     Toggle.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
@@ -272,8 +271,6 @@ local function AddToggle(parent, text, callback)
     Toggle.Size = UDim2.new(1,0,0,32)
     Toggle.LayoutOrder = layoutCounters[parent]
     Toggle.Parent = parent
-
-    layoutCounters[parent] = layoutCounters[parent] + 1
 
     local Box = Instance.new("Frame")
     Box.Name = "Box"

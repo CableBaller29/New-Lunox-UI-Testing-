@@ -234,11 +234,26 @@ local function AddTab(window, name, isFirst)
         Container.CanvasSize = UDim2.new(0,0,0,Layout.AbsoluteContentSize.Y + 10)
     end)
 
-    if isFirst then
+    local function showTab()
+        for _, child in ipairs(window.ContentFrame:GetChildren()) do
+            if child:IsA("ScrollingFrame") then
+                child.Visible = false
+            end
+        end
         Container.Visible = true
+
+        for _, btn in ipairs(window.TabsFrame:GetChildren()) do
+            if btn:IsA("TextButton") then
+                btn.TextLabel.TextTransparency = 0.4
+            end
+        end
         TabTitle.TextTransparency = 0
-    else
-        TabTitle.TextTransparency = 0.4
+    end
+
+    TabButton.MouseButton1Click:Connect(showTab)
+
+    if isFirst then
+        showTab()
     end
 
     return Container

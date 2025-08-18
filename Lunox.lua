@@ -62,6 +62,7 @@ local function MakeWindow(config)
     Title.TextWrapped = true
     local TitleConstraint = Instance.new("UITextSizeConstraint")
     TitleConstraint.MaxTextSize = 20
+    TitleConstraint.MinTextSize = 1
     TitleConstraint.Parent = Title
 
     local NewText = Instance.new("TextLabel")
@@ -77,6 +78,7 @@ local function MakeWindow(config)
     NewText.TextWrapped = true
     local NewTextConstraint = Instance.new("UITextSizeConstraint")
     NewTextConstraint.MaxTextSize = 20
+    NewTextConstraint.MinTextSize = 1
     NewTextConstraint.Parent = NewText
 
     local NewText2 = Instance.new("TextLabel")
@@ -92,6 +94,7 @@ local function MakeWindow(config)
     NewText2.TextWrapped = true
     local NewText2Constraint = Instance.new("UITextSizeConstraint")
     NewText2Constraint.MaxTextSize = 20
+    NewText2Constraint.MinTextSize = 1
     NewText2Constraint.Parent = NewText2
 
     local VersionText = Instance.new("TextLabel")
@@ -107,13 +110,14 @@ local function MakeWindow(config)
     VersionText.TextWrapped = true
     local VersionConstraint = Instance.new("UITextSizeConstraint")
     VersionConstraint.MaxTextSize = 20
+    VersionConstraint.MinTextSize = 1
     VersionConstraint.Parent = VersionText
 
     local Logo = Instance.new("ImageLabel")
     Logo.Name = "Logo"
     Logo.Parent = TopBar
-    Logo.Position = UDim2.new(0.02646,0,0.22222,0)
-    Logo.Size = UDim2.new(0.05,0,0.44444,0)
+    Logo.Position = UDim2.new(0.026,0,0.222,0)
+    Logo.Size = UDim2.new(0.024,0,0.444,0)
     Logo.BackgroundTransparency = 1
     Logo.Image = logo
 
@@ -132,6 +136,7 @@ local function MakeWindow(config)
     CloseButton.TextWrapped = true
     local CloseConstraint = Instance.new("UITextSizeConstraint")
     CloseConstraint.MaxTextSize = 25
+    CloseConstraint.MinTextSize = 1
     CloseConstraint.Parent = CloseButton
     CloseButton.MouseButton1Click:Connect(function()
         ScreenGui:Destroy()
@@ -152,6 +157,7 @@ local function MakeWindow(config)
     MiniButton.TextWrapped = true
     local MiniConstraint = Instance.new("UITextSizeConstraint")
     MiniConstraint.MaxTextSize = 25
+    MiniConstraint.MinTextSize = 1
     MiniConstraint.Parent = MiniButton
     MiniButton.MouseButton1Click:Connect(function()
         Frame.Visible = not Frame.Visible

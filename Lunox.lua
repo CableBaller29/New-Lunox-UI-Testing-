@@ -1,7 +1,6 @@
+local LunoxLib = {}
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
 local layoutCounters = {}
 
 local function MakeWindow(config)

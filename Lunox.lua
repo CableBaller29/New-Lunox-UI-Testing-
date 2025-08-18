@@ -206,7 +206,7 @@ local function AddTab(window, name, isFirst)
 
     local TabTitle = Instance.new("TextLabel")
     TabTitle.Text = name
-    TabTitle.Size = UDim2.new(0.354,0,0.667,0)
+    TabTitle.Size = UDim2.new(0.6,0,0.667,0)
     TabTitle.Position = UDim2.new(0.043,0,0.2,0)
     TabTitle.BackgroundTransparency = 1
     TabTitle.TextScaled = true

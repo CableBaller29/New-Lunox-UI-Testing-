@@ -210,13 +210,14 @@ local function AddTab(window, name, isFirst)
     TabTitle.Position = UDim2.new(0.043,0,0.2,0)
     TabTitle.BackgroundTransparency = 1
     TabTitle.TextScaled = true
+    TabTitle.TextXAlignment = Enum.TextXAlignment.Left
     TabTitle.TextColor3 = Color3.fromRGB(255,255,255)
     TabTitle.Parent = TabButton
 
-    local UITextSizeConstraint93 = Instance.new("UITextSizeConstraint")
-    UITextSizeConstraint93.MaxTextSize = 15
-    UITextSizeConstraint93.MinTextSize = 15
-    UITextSizeConstraint93.Parent = TabTitle
+    local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+    UITextSizeConstraint.MaxTextSize = 12
+    UITextSizeConstraint.MinTextSize = 12
+    UITextSizeConstraint.Parent = TabTitle
 
     local Container = Instance.new("ScrollingFrame")
     Container.Size = UDim2.new(1,0,1,0)
@@ -244,7 +245,10 @@ local function AddTab(window, name, isFirst)
 
         for _, btn in ipairs(window.TabsFrame:GetChildren()) do
             if btn:IsA("TextButton") then
-                btn.TextLabel.TextTransparency = 0.4
+                local lbl = btn:FindFirstChild("TextLabel")
+                if lbl then
+                    lbl.TextTransparency = 0.4
+                end
             end
         end
         TabTitle.TextTransparency = 0

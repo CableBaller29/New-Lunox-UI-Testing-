@@ -240,37 +240,36 @@ end
 local function AddToggle(parent, text, itemText, callback)
     layoutCounters[parent] = layoutCounters[parent] or 1
 
-    local Toggle = Instance.new("TextButton")
+    local Toggle = Instance.new("Frame")
     Toggle.Name = "ToggleButton"
     Toggle.BackgroundTransparency = 1
-    Toggle.Text = ""
-    Toggle.Size = UDim2.new(1,0,0,32)
+    Toggle.Size = UDim2.new(1,0,0,50)
     Toggle.LayoutOrder = layoutCounters[parent]
     Toggle.Parent = parent
 
     layoutCounters[parent] = layoutCounters[parent] + 1
 
-    local Box = Instance.new("Frame")
-    Box.Name = "Box"
-    Box.Size = UDim2.new(0.059, 0, 0.625, 0)
-    Box.Position = UDim2.new(0.018,0,0.188,0)
-    Box.BackgroundColor3 = Color3.fromRGB(50,50,50)
-    Box.Parent = Toggle
-
-    local UICorner = Instance.new("UICorner")
-    UICorner.CornerRadius = UDim.new(0,4)
-    UICorner.Parent = Box
-
     if text then
         local TextLabel4 = Instance.new("TextLabel")
-        TextLabel4.Size = UDim2.new(0.309,0,1,0)
-        TextLabel4.Position = UDim2.new(0.1,0,0,0)
+        TextLabel4.Size = UDim2.new(1,0,0,20)
+        TextLabel4.Position = UDim2.new(0,0,0,0)
         TextLabel4.BackgroundTransparency = 1
         TextLabel4.TextColor3 = Color3.fromRGB(255,255,255)
         TextLabel4.TextScaled = true
         TextLabel4.Text = text
         TextLabel4.Parent = Toggle
     end
+
+    local Box = Instance.new("Frame")
+    Box.Name = "Box"
+    Box.Size = UDim2.new(0.059, 0, 0.625, 0)
+    Box.Position = UDim2.new(0.018,0,0.45,0) -- moved down
+    Box.BackgroundColor3 = Color3.fromRGB(50,50,50)
+    Box.Parent = Toggle
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0,4)
+    UICorner.Parent = Box
 
     local toggled = false
     Toggle.MouseButton1Click:Connect(function()

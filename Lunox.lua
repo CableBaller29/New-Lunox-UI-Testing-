@@ -458,10 +458,132 @@ local function AddDropdown(parent, text, options, callback)
     }
 end
 
+local function AddSlider(parent, text, min, max, default, callback)
+    local SliderFrame = Instance.new("Frame")
+    SliderFrame.Size = UDim2.new(1,0,0,40)
+    SliderFrame.BackgroundTransparency = 1
+    SliderFrame.Parent = parent
+
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(0.6,0,0.5,0)
+    Label.Position = UDim2.new(0,0,0,0)
+    Label.BackgroundTransparency = 1
+    Label.Text = text .. ": " .. tostring(default)
+    Label.TextColor3 = Color3.fromRGB(255,255,255)
+    Label.TextScaled = true
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = SliderFrame
+
+    local SliderBar = Instance.new("Frame")
+    SliderBar.Size = UDim2.new(1,0,0,8)
+    SliderBar.Position = UDim2.new(0,0,0.7,0)
+    SliderBar.BackgroundColor3 = Color3.fromRGB(89, 89, 89)
+    SliderBar.Parent = SliderFrame
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0,4)
+    UICorner.Parent = SliderBar
+
+    local Fill = Instance.new("Frame")
+    Fill.Size = UDim2.new((default-min)/(max-min),0,1,0)
+    Fill.BackgroundColor3 = Color3.fromRGB(0,200,0)
+    Fill.Parent = SliderBar
+    local FillCorner = Instance.new("UICorner")
+    FillCorner.CornerRadius = UDim.new(0,4)
+    FillCorner.Parent = Fill
+
+    local dragging = false
+
+    SliderBar.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+        end
+    end)
+
+    SliderBar.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+
+    SliderBar.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            local function update(pos)
+                local relative = math.clamp((pos.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
+                Fill.Size = UDim2.new(relative,0,1,0)
+                local value = math.floor(min + (max-min)*relative)
+                Label.Text = text .. ": " .. value
+                if callback then callback(value) end
+            end
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then dragging = false end
+            end)
+            if dragging then update(input.Position) end
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local relative = math.clamp((input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
+            Fill.Size = UDim2.new(relative,0,1,0)
+            local value = math.floor(min + (max-min)*relative)
+            Label.Text = text .. ": " .. value
+            if callback then callback(value) end
+        end
+    end)
+
+    return SliderFrame
+end
+
+local function Notification(text, duration)
+    duration = duration or 3
+
+    local ScreenGui = game.CoreGui:FindFirstChild("Lunox") or Instance.new("ScreenGui", game.CoreGui)
+    ScreenGui.Name = "Lunox"
+    ScreenGui.ResetOnSpawn = false
+
+    local notif = Instance.new("Frame")
+    notif.Size = UDim2.new(0,250,0,50)
+    notif.Position = UDim2.new(1,-260,1,-60)
+    notif.AnchorPoint = Vector2.new(0,0)
+    notif.BackgroundColor3 = Color3.fromRGB(35,35,35)
+    notif.BackgroundTransparency = 0
+    notif.BorderSizePixel = 0
+    notif.Parent = ScreenGui
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0,6)
+    corner.Parent = notif
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, -10, 1, -10)
+    label.Position = UDim2.new(0,5,0,5)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(255,255,255)
+    label.TextScaled = true
+    label.TextWrapped = true
+    label.Text = text
+    label.Parent = notif
+
+    local tweenService = game:GetService("TweenService")
+    notif.Position = UDim2.new(1,10,1,-60)
+    local tweenIn = tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(1,-260,1,-60)})
+    tweenIn:Play()
+
+    task.delay(duration, function()
+        local tweenOut = tweenService:Create(notif, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(1,10,1,-60)})
+        tweenOut:Play()
+        tweenOut.Completed:Connect(function()
+            notif:Destroy()
+        end)
+    end)
+end
+
 LunoxLib.MakeWindow = MakeWindow
 LunoxLib.AddTab = AddTab
 LunoxLib.AddToggle = AddToggle
 LunoxLib.AddButton = AddButton
 LunoxLib.AddDropdown = AddDropdown
+LunoxLib.AddSlider = AddSlider
+LunoxLib.Notification = Notification
 
 return LunoxLib

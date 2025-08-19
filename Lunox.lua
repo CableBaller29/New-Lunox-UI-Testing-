@@ -564,7 +564,7 @@ end)
     return SliderFrame
 end
 
-function LunoxLib.AddSection(parent, title)
+function AddSection(parent, title)
     local SectionFrame = Instance.new("Frame")
     SectionFrame.Size = UDim2.new(1, 0, 0, 30)
     SectionFrame.BackgroundTransparency = 1

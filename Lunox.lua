@@ -351,8 +351,8 @@ local function AddDropdown(parent, text, options, callback)
     local Theme = {
         Background = Color3.fromRGB(60, 60, 60),
         BoxOff = Color3.fromRGB(16,16,16),
-        Text = Color3.fromRGB(255, 255, 255),
-        Accent = Color3.fromRGB(89, 89, 89)
+        Text = Color3.fromRGB(255,255,255),
+        Accent = Color3.fromRGB(89,89,89),
     }
 
     local Dropdown = Instance.new("TextButton")
@@ -364,48 +364,70 @@ local function AddDropdown(parent, text, options, callback)
     Dropdown.TextSize = 14
     Dropdown.Text = text
     Dropdown.AutoButtonColor = false
+    Dropdown.ClipsDescendants = false
     Dropdown.Parent = parent
     Instance.new("UICorner", Dropdown).CornerRadius = UDim.new(0,6)
 
-    local Open = false
+    local rootGui = Dropdown:FindFirstAncestorOfClass("ScreenGui") or game:GetService("CoreGui"):FindFirstChild("Lunox")
+    if not rootGui then
+        local pg = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+        rootGui = pg:FindFirstChildOfClass("ScreenGui") or pg
+    end
+
     local Scroll = Instance.new("ScrollingFrame")
-    Scroll.Size = UDim2.new(1,0,0,0)
-    Scroll.Position = UDim2.new(0,0,0,32)
+    Scroll.Size = UDim2.new(0,0,0,0)
     Scroll.CanvasSize = UDim2.new(0,0,0,0)
     Scroll.ScrollBarThickness = 6
     Scroll.BackgroundColor3 = Theme.BoxOff
     Scroll.BackgroundTransparency = 0.2
     Scroll.Visible = false
-    Scroll.Parent = parent
+    Scroll.ZIndex = 100
+    Scroll.ClipsDescendants = true
+    Scroll.Parent = rootGui
+    Instance.new("UICorner", Scroll).CornerRadius = UDim.new(0,6)
 
     local Layout = Instance.new("UIListLayout")
     Layout.SortOrder = Enum.SortOrder.LayoutOrder
     Layout.Padding = UDim.new(0,3)
     Layout.Parent = Scroll
 
+    local Open = false
+    local selectedOptions, optionButtons = {}, {}
+
+    local function getOptions()
+        return (type(options) == "function") and options() or options
+    end
+
+    local function updatePopupPosition()
+        local ap, as = Dropdown.AbsolutePosition, Dropdown.AbsoluteSize
+        local h = math.min(Layout.AbsoluteContentSize.Y + 8, 150)
+        Scroll.Position = UDim2.fromOffset(ap.X, ap.Y + as.Y + 2)
+        Scroll.Size = UDim2.fromOffset(as.X, Open and h or 0)
+    end
+
     Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-        Scroll.CanvasSize = UDim2.new(0,0,0,Layout.AbsoluteContentSize.Y + 5)
-        if Open then
-            Scroll.Size = UDim2.new(1,0,0,math.min(Layout.AbsoluteContentSize.Y + 5, 150))
-        end
+        Scroll.CanvasSize = UDim2.new(0,0,0,Layout.AbsoluteContentSize.Y + 6)
+        if Open then updatePopupPosition() end
     end)
 
-    local selectedOptions = {}
-    local optionButtons = {}
+    Dropdown:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+        if Open then updatePopupPosition() end
+    end)
+    Dropdown:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+        if Open then updatePopupPosition() end
+    end)
 
     local function RefreshOptions()
-        local currentOptions = (type(options) == "function") and options() or options
+        local current = getOptions()
 
-        -- destroy buttons that no longer exist in options
         for opt, btn in pairs(optionButtons) do
-            if not table.find(currentOptions, opt) then
+            if not table.find(current, opt) then
                 btn:Destroy()
                 optionButtons[opt] = nil
             end
         end
 
-        -- add new buttons for new options
-        for _, opt in ipairs(currentOptions) do
+        for _, opt in ipairs(current) do
             if optionButtons[opt] then continue end
 
             local btn = Instance.new("TextButton")
@@ -416,19 +438,21 @@ local function AddDropdown(parent, text, options, callback)
             btn.TextSize = 14
             btn.Text = opt
             btn.AutoButtonColor = true
+            btn.ZIndex = 101
             btn.Parent = Scroll
             Instance.new("UICorner", btn).CornerRadius = UDim.new(0,5)
 
             local highlight = Instance.new("Frame")
             highlight.Size = UDim2.new(0.03,0,1,0)
-            highlight.Position = UDim2.new(0,0,0,0)
             highlight.BackgroundColor3 = Theme.Accent
             highlight.Visible = table.find(selectedOptions,opt) ~= nil
+            highlight.ZIndex = 102
             highlight.Parent = btn
 
             btn.MouseButton1Click:Connect(function()
-                highlight.Visible = not highlight.Visible
-                if highlight.Visible then
+                local on = not highlight.Visible
+                highlight.Visible = on
+                if on then
                     if not table.find(selectedOptions,opt) then
                         table.insert(selectedOptions,opt)
                     end
@@ -437,7 +461,7 @@ local function AddDropdown(parent, text, options, callback)
                         if v == opt then table.remove(selectedOptions,i) break end
                     end
                 end
-                if callback then callback(opt, highlight.Visible) end
+                if callback then callback(opt, on) end
             end)
 
             optionButtons[opt] = btn
@@ -446,11 +470,19 @@ local function AddDropdown(parent, text, options, callback)
 
     Dropdown.MouseButton1Click:Connect(function()
         Open = not Open
-        Scroll.Visible = Open
         if Open then
             RefreshOptions()
+            Scroll.Visible = true
+            updatePopupPosition()
         else
-            Scroll.Size = UDim2.new(1,0,0,0)
+            Scroll.Visible = false
+            Scroll.Size = UDim2.fromOffset(0,0)
+        end
+    end)
+
+    Dropdown.AncestryChanged:Connect(function()
+        if not Dropdown:IsDescendantOf(game) then
+            if Scroll then Scroll:Destroy() end
         end
     end)
 

@@ -572,6 +572,7 @@ local function AddSection(parent, title)
 
     local Header = Instance.new("TextButton")
     Header.Size = UDim2.new(1, 0, 0, 30)
+    Header.Position = UDim2.new(0, 0, 0, 0)
     Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     Header.TextColor3 = Color3.fromRGB(255, 255, 255)
     Header.Font = Enum.Font.GothamBold
@@ -581,8 +582,9 @@ local function AddSection(parent, title)
 
     local Content = Instance.new("Frame")
     Content.Size = UDim2.new(1, 0, 0, 0)
+    Content.Position = UDim2.new(0, 0, 0, 30) -- below header
     Content.BackgroundTransparency = 1
-    Content.ClipsDescendants = true
+    Content.ClipsDescendants = false
     Content.Parent = SectionFrame
 
     local UIListLayout = Instance.new("UIListLayout")
@@ -592,35 +594,19 @@ local function AddSection(parent, title)
 
     local expanded = false
 
-    local function SetVisibleRecursive(frame, visible)
-        for _, child in ipairs(frame:GetChildren()) do
-            if child:IsA("GuiObject") then
-                child.Visible = visible
-            end
-            SetVisibleRecursive(child, visible)
-        end
-    end
-
     local function UpdateSectionHeight()
         local contentHeight = UIListLayout.AbsoluteContentSize.Y
-        local totalHeight = 30 + (expanded and contentHeight or 0)
-        SectionFrame:TweenSize(
-            UDim2.new(1, 0, 0, totalHeight),
-            Enum.EasingDirection.Out,
-            Enum.EasingStyle.Quad,
-            0.25,
-            true
-        )
+        Content.Size = UDim2.new(1, 0, 0, expanded and contentHeight or 0)
+        SectionFrame.Size = UDim2.new(1, 0, 0, 30 + (expanded and contentHeight or 0))
     end
-
-    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateSectionHeight)
 
     Header.MouseButton1Click:Connect(function()
         expanded = not expanded
         Header.Text = expanded and (title .. " ▲") or (title .. " ▼")
-        SetVisibleRecursive(Content, expanded)
         UpdateSectionHeight()
     end)
+
+    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateSectionHeight)
 
     return Content
 end

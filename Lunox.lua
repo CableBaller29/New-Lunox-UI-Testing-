@@ -576,7 +576,7 @@ local function AddSection(parent, title)
     Header.TextColor3 = Color3.fromRGB(255, 255, 255)
     Header.Font = Enum.Font.GothamBold
     Header.TextSize = 14
-    Header.Text = title .. " ▲" -- start expanded
+    Header.Text = title .. " ▼" -- collapsed initially
     Header.Parent = SectionFrame
 
     local Content = Instance.new("Frame")
@@ -590,7 +590,7 @@ local function AddSection(parent, title)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 4)
 
-    local expanded = true -- start expanded
+    local expanded = false -- start collapsed
 
     local function UpdateSectionHeight()
         local contentHeight = UIListLayout.AbsoluteContentSize.Y
@@ -608,13 +608,13 @@ local function AddSection(parent, title)
 
     Content.ChildAdded:Connect(function()
         task.wait(0.05)
-        UpdateSectionHeight()
-        -- always visible if expanded
+        -- set child visibility according to expanded state
         for _, child in ipairs(Content:GetChildren()) do
             if child:IsA("GuiObject") then
                 child.Visible = expanded
             end
         end
+        UpdateSectionHeight()
     end)
 
     Header.MouseButton1Click:Connect(function()
@@ -625,13 +625,15 @@ local function AddSection(parent, title)
                 child.Visible = expanded
             end
         end
-        task.wait(0.05)
         UpdateSectionHeight()
     end)
 
-    -- force initial size
-    task.wait(0.05)
-    UpdateSectionHeight()
+    -- make sure initial children are hidden
+    for _, child in ipairs(Content:GetChildren()) do
+        if child:IsA("GuiObject") then
+            child.Visible = false
+        end
+    end
 
     return Content
 end

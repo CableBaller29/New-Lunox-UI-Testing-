@@ -576,7 +576,7 @@ local function AddSection(parent, title)
     Header.TextColor3 = Color3.fromRGB(255, 255, 255)
     Header.Font = Enum.Font.GothamBold
     Header.TextSize = 14
-    Header.Text = title .. " ▲"  -- start expanded
+    Header.Text = title .. " ▲" -- start expanded
     Header.Parent = SectionFrame
 
     local Content = Instance.new("Frame")
@@ -590,7 +590,7 @@ local function AddSection(parent, title)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 4)
 
-    local expanded = true  -- start expanded
+    local expanded = true -- start expanded
 
     local function UpdateSectionHeight()
         local contentHeight = UIListLayout.AbsoluteContentSize.Y
@@ -605,10 +605,11 @@ local function AddSection(parent, title)
     end
 
     UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateSectionHeight)
+
     Content.ChildAdded:Connect(function()
         task.wait(0.05)
         UpdateSectionHeight()
-        -- Show children by default
+        -- always visible if expanded
         for _, child in ipairs(Content:GetChildren()) do
             if child:IsA("GuiObject") then
                 child.Visible = expanded
@@ -628,7 +629,7 @@ local function AddSection(parent, title)
         UpdateSectionHeight()
     end)
 
-    -- force initial size update
+    -- force initial size
     task.wait(0.05)
     UpdateSectionHeight()
 

@@ -563,12 +563,16 @@ end)
 
     return SliderFrame
 end
+local SectionOffset = 0
 
 local function AddSection(parent, title)
     local SectionFrame = Instance.new("Frame")
     SectionFrame.Size = UDim2.new(1, 0, 0, 30)
+    SectionFrame.Position = UDim2.new(0, 0, 0, SectionOffset)
     SectionFrame.BackgroundTransparency = 1
     SectionFrame.Parent = parent
+
+    SectionOffset = SectionOffset + 30 -- reserve space for header initially
 
     local Header = Instance.new("TextButton")
     Header.Size = UDim2.new(1, 0, 0, 30)
@@ -582,7 +586,7 @@ local function AddSection(parent, title)
 
     local Content = Instance.new("Frame")
     Content.Size = UDim2.new(1, 0, 0, 0)
-    Content.Position = UDim2.new(0, 0, 0, 30) -- below header
+    Content.Position = UDim2.new(0, 0, 0, 30)
     Content.BackgroundTransparency = 1
     Content.ClipsDescendants = false
     Content.Parent = SectionFrame
@@ -607,6 +611,17 @@ local function AddSection(parent, title)
     end)
 
     UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateSectionHeight)
+
+    -- increment global offset for next section
+    SectionFrame:GetPropertyChangedSignal("Size"):Connect(function()
+        SectionOffset = 0
+        for _, sec in ipairs(parent:GetChildren()) do
+            if sec:IsA("Frame") then
+                sec.Position = UDim2.new(0, 0, 0, SectionOffset)
+                SectionOffset = SectionOffset + sec.Size.Y.Offset
+            end
+        end
+    end)
 
     return Content
 end

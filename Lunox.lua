@@ -564,6 +564,49 @@ end)
     return SliderFrame
 end
 
+function LunoxLib.AddSection(parent, title)
+    local SectionFrame = Instance.new("Frame")
+    SectionFrame.Size = UDim2.new(1, 0, 0, 30)
+    SectionFrame.BackgroundTransparency = 1
+    SectionFrame.Parent = parent
+
+    local Header = Instance.new("TextButton")
+    Header.Size = UDim2.new(1, 0, 0, 30)
+    Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    Header.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Header.Text = title .. " ▼"
+    Header.Parent = SectionFrame
+
+    local Content = Instance.new("Frame")
+    Content.Size = UDim2.new(1, 0, 0, 0) -- start collapsed
+    Content.BackgroundTransparency = 1
+    Content.ClipsDescendants = true
+    Content.Parent = SectionFrame
+
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Parent = Content
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    local expanded = false
+    Header.MouseButton1Click:Connect(function()
+        expanded = not expanded
+        Header.Text = expanded and (title .. " ▲") or (title .. " ▼")
+        if expanded then
+            local contentHeight = 0
+            for _, child in ipairs(Content:GetChildren()) do
+                if child:IsA("GuiObject") then
+                    contentHeight += child.AbsoluteSize.Y + UIListLayout.Padding.Offset
+                end
+            end
+            Content:TweenSize(UDim2.new(1, 0, 0, contentHeight), "Out", "Quad", 0.25, true)
+        else
+            Content:TweenSize(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.25, true)
+        end
+    end)
+
+    return Content
+end
+
 local function Notification(title, description, duration)
     duration = duration or 3
 
@@ -638,5 +681,6 @@ LunoxLib.AddDropdown = AddDropdown
 LunoxLib.AddSlider = AddSlider
 LunoxLib.Notification = Notification
 LunoxLib.AddLabel = AddLabel
+LunoxLib.AddSection = AddSection
 
 return LunoxLib

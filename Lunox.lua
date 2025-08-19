@@ -674,14 +674,20 @@ end
 
 local function AddLabel(parent, text)
     local Label = Instance.new("TextLabel")
-    Label.Size = UDim2.new(1, 0, 0, 28)
+    Label.Size = UDim2.new(1, 0, 0, 22)
     Label.BackgroundTransparency = 1
     Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Label.TextScaled = true
     Label.Text = text
     Label.Font = Enum.Font.Gotham
     Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.TextYAlignment = Enum.TextYAlignment.Center
     Label.Parent = parent
+
+    local sizeConstraint = Instance.new("UITextSizeConstraint")
+    sizeConstraint.MaxTextSize = 14
+    sizeConstraint.MinTextSize = 10
+    sizeConstraint.Parent = Label
+
     return Label
 end
 

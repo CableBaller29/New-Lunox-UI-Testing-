@@ -608,11 +608,24 @@ local function AddSection(parent, title)
     Content.ChildAdded:Connect(function()
         task.wait(0.05)
         UpdateSectionHeight()
+        -- Hide children if collapsed
+        if not expanded then
+            for _, child in ipairs(Content:GetChildren()) do
+                if child:IsA("GuiObject") then
+                    child.Visible = false
+                end
+            end
+        end
     end)
 
     Header.MouseButton1Click:Connect(function()
         expanded = not expanded
         Header.Text = expanded and (title .. " ▲") or (title .. " ▼")
+        for _, child in ipairs(Content:GetChildren()) do
+            if child:IsA("GuiObject") then
+                child.Visible = expanded
+            end
+        end
         task.wait(0.05)
         UpdateSectionHeight()
     end)

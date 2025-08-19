@@ -684,8 +684,8 @@ local function AddLabel(parent, text)
     Label.Parent = parent
 
     local sizeConstraint = Instance.new("UITextSizeConstraint")
-    sizeConstraint.MaxTextSize = 14
-    sizeConstraint.MinTextSize = 10
+    sizeConstraint.MaxTextSize = 18
+    sizeConstraint.MinTextSize = 18
     sizeConstraint.Parent = Label
 
     return Label

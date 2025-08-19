@@ -563,20 +563,16 @@ end)
 
     return SliderFrame
 end
-local SectionOffset = 0
 
 local function AddSection(parent, title)
     local SectionFrame = Instance.new("Frame")
+    SectionFrame.Name = title .. "_Section"
     SectionFrame.Size = UDim2.new(1, 0, 0, 30)
-    SectionFrame.Position = UDim2.new(0, 0, 0, SectionOffset)
     SectionFrame.BackgroundTransparency = 1
     SectionFrame.Parent = parent
 
-    SectionOffset = SectionOffset + 30 -- reserve space for header initially
-
     local Header = Instance.new("TextButton")
     Header.Size = UDim2.new(1, 0, 0, 30)
-    Header.Position = UDim2.new(0, 0, 0, 0)
     Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     Header.TextColor3 = Color3.fromRGB(255, 255, 255)
     Header.Font = Enum.Font.GothamBold
@@ -588,13 +584,13 @@ local function AddSection(parent, title)
     Content.Size = UDim2.new(1, 0, 0, 0)
     Content.Position = UDim2.new(0, 0, 0, 30)
     Content.BackgroundTransparency = 1
-    Content.ClipsDescendants = false
+    Content.ClipsDescendants = true
     Content.Parent = SectionFrame
 
     local UIListLayout = Instance.new("UIListLayout")
-    UIListLayout.Parent = Content
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 4)
+    UIListLayout.Parent = Content
 
     local expanded = false
 
@@ -602,6 +598,14 @@ local function AddSection(parent, title)
         local contentHeight = UIListLayout.AbsoluteContentSize.Y
         Content.Size = UDim2.new(1, 0, 0, expanded and contentHeight or 0)
         SectionFrame.Size = UDim2.new(1, 0, 0, 30 + (expanded and contentHeight or 0))
+
+        local offset = 0
+        for _, sec in ipairs(parent:GetChildren()) do
+            if sec:IsA("Frame") and sec:FindFirstChild("TextButton") then
+                sec.Position = UDim2.new(0, 0, 0, offset)
+                offset = offset + sec.Size.Y.Offset
+            end
+        end
     end
 
     Header.MouseButton1Click:Connect(function()
@@ -611,17 +615,6 @@ local function AddSection(parent, title)
     end)
 
     UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateSectionHeight)
-
-    -- increment global offset for next section
-    SectionFrame:GetPropertyChangedSignal("Size"):Connect(function()
-        SectionOffset = 0
-        for _, sec in ipairs(parent:GetChildren()) do
-            if sec:IsA("Frame") then
-                sec.Position = UDim2.new(0, 0, 0, SectionOffset)
-                SectionOffset = SectionOffset + sec.Size.Y.Offset
-            end
-        end
-    end)
 
     return Content
 end

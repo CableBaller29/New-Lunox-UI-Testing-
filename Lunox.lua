@@ -576,7 +576,7 @@ local function AddSection(parent, title)
     Header.TextColor3 = Color3.fromRGB(255, 255, 255)
     Header.Font = Enum.Font.GothamBold
     Header.TextSize = 14
-    Header.Text = title .. " ▼" -- collapsed initially
+    Header.Text = title .. " ▼"
     Header.Parent = SectionFrame
 
     local Content = Instance.new("Frame")
@@ -590,7 +590,16 @@ local function AddSection(parent, title)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 4)
 
-    local expanded = false -- start collapsed
+    local expanded = false
+
+    local function SetVisibleRecursive(frame, visible)
+        for _, child in ipairs(frame:GetChildren()) do
+            if child:IsA("GuiObject") then
+                child.Visible = visible
+            end
+            SetVisibleRecursive(child, visible)
+        end
+    end
 
     local function UpdateSectionHeight()
         local contentHeight = UIListLayout.AbsoluteContentSize.Y
@@ -606,34 +615,12 @@ local function AddSection(parent, title)
 
     UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateSectionHeight)
 
-    Content.ChildAdded:Connect(function()
-        task.wait(0.05)
-        -- set child visibility according to expanded state
-        for _, child in ipairs(Content:GetChildren()) do
-            if child:IsA("GuiObject") then
-                child.Visible = expanded
-            end
-        end
-        UpdateSectionHeight()
-    end)
-
     Header.MouseButton1Click:Connect(function()
         expanded = not expanded
         Header.Text = expanded and (title .. " ▲") or (title .. " ▼")
-        for _, child in ipairs(Content:GetChildren()) do
-            if child:IsA("GuiObject") then
-                child.Visible = expanded
-            end
-        end
+        SetVisibleRecursive(Content, expanded)
         UpdateSectionHeight()
     end)
-
-    -- make sure initial children are hidden
-    for _, child in ipairs(Content:GetChildren()) do
-        if child:IsA("GuiObject") then
-            child.Visible = false
-        end
-    end
 
     return Content
 end

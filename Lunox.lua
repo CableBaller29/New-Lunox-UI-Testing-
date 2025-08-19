@@ -580,7 +580,7 @@ function AddSection(parent, title)
     Header.Parent = SectionFrame
 
     local Content = Instance.new("Frame")
-    Content.Size = UDim2.new(1, 0, 0, 0) -- start collapsed
+    Content.Size = UDim2.new(1, 0, 0, 0)
     Content.BackgroundTransparency = 1
     Content.ClipsDescendants = true
     Content.Parent = SectionFrame
@@ -604,14 +604,19 @@ function AddSection(parent, title)
         )
     end
 
-    -- update height whenever children change size or new ones are added
+    -- update height when children change or are added
     UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateContentHeight)
+    Content.ChildAdded:Connect(function()
+        task.wait(0.05) -- small delay to allow layout to update
+        UpdateContentHeight()
+    end)
 
     Header.MouseButton1Click:Connect(function()
         expanded = not expanded
         Header.Text = expanded and (title .. " ▲") or (title .. " ▼")
 
         if expanded then
+            task.wait(0.05)
             Content:TweenSize(
                 UDim2.new(1, 0, 0, UIListLayout.AbsoluteContentSize.Y),
                 Enum.EasingDirection.Out,

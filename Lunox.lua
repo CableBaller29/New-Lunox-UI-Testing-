@@ -574,6 +574,8 @@ function LunoxLib.AddSection(parent, title)
     Header.Size = UDim2.new(1, 0, 0, 30)
     Header.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     Header.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Header.Font = Enum.Font.GothamBold
+    Header.TextSize = 14
     Header.Text = title .. " ▼"
     Header.Parent = SectionFrame
 
@@ -586,21 +588,45 @@ function LunoxLib.AddSection(parent, title)
     local UIListLayout = Instance.new("UIListLayout")
     UIListLayout.Parent = Content
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0, 4)
 
     local expanded = false
+
+    local function UpdateContentHeight()
+        if not expanded then return end
+        local contentHeight = UIListLayout.AbsoluteContentSize.Y
+        Content:TweenSize(
+            UDim2.new(1, 0, 0, contentHeight),
+            Enum.EasingDirection.Out,
+            Enum.EasingStyle.Quad,
+            0.25,
+            true
+        )
+    end
+
+    -- update height whenever children change size or new ones are added
+    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(UpdateContentHeight)
+
     Header.MouseButton1Click:Connect(function()
         expanded = not expanded
         Header.Text = expanded and (title .. " ▲") or (title .. " ▼")
+
         if expanded then
-            local contentHeight = 0
-            for _, child in ipairs(Content:GetChildren()) do
-                if child:IsA("GuiObject") then
-                    contentHeight += child.AbsoluteSize.Y + UIListLayout.Padding.Offset
-                end
-            end
-            Content:TweenSize(UDim2.new(1, 0, 0, contentHeight), "Out", "Quad", 0.25, true)
+            Content:TweenSize(
+                UDim2.new(1, 0, 0, UIListLayout.AbsoluteContentSize.Y),
+                Enum.EasingDirection.Out,
+                Enum.EasingStyle.Quad,
+                0.25,
+                true
+            )
         else
-            Content:TweenSize(UDim2.new(1, 0, 0, 0), "Out", "Quad", 0.25, true)
+            Content:TweenSize(
+                UDim2.new(1, 0, 0, 0),
+                Enum.EasingDirection.Out,
+                Enum.EasingStyle.Quad,
+                0.25,
+                true
+            )
         end
     end)
 

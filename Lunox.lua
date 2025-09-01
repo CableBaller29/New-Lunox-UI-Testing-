@@ -41,81 +41,94 @@ local function MakeWindow(config)
 
     local UIStroke = Instance.new("UIStroke")
     UIStroke.Color = Color3.new(1,1,1)
-    UIStroke.Thickness = 2
+    UIStroke.Thickness = 2.4
     UIStroke.Parent = Frame
 
     local TopBar = Instance.new("Frame")
     TopBar.Name = "TopBar"
     TopBar.Parent = Frame
-    TopBar.Size = UDim2.new(1,0,0.09,0)
+    TopBar.Size = UDim2.new(1,0,0.094,0)
     TopBar.BackgroundTransparency = 1
     TopBar.BorderSizePixel = 0
-
-    local Logo = Instance.new("ImageLabel")
-    Logo.Name = "Logo"
-    Logo.Parent = TopBar
-    Logo.Position = UDim2.new(0.01,0,0.15,0)
-    Logo.Size = UDim2.new(0.035,0,0.7,0)
-    Logo.BackgroundTransparency = 1
-    Logo.Image = logo
 
     local Title = Instance.new("TextLabel")
     Title.Name = "Title"
     Title.Parent = TopBar
-    Title.Position = UDim2.new(0.055,0,0,0)
-    Title.Size = UDim2.new(0.15,0,1,0)
+    Title.Position = UDim2.new(0,0,0.222,0)
+    Title.Size = UDim2.new(0.252,0,0.444,0)
     Title.BackgroundTransparency = 1
     Title.Font = Enum.Font.SourceSansBold
     Title.Text = "Lunox Hub"
     Title.TextColor3 = Color3.new(1,1,1)
     Title.TextScaled = true
     Title.TextWrapped = true
+    local TitleConstraint = Instance.new("UITextSizeConstraint")
+    TitleConstraint.MaxTextSize = 20
+    TitleConstraint.MinTextSize = 1
+    TitleConstraint.Parent = Title
 
-    local GameNameLabel = Instance.new("TextLabel")
-    GameNameLabel.Name = "GameName"
-    GameNameLabel.Parent = TopBar
-    GameNameLabel.Position = UDim2.new(0.21,0,0,0)
-    GameNameLabel.Size = UDim2.new(0.35,0,1,0)
-    GameNameLabel.BackgroundTransparency = 1
-    GameNameLabel.Font = Enum.Font.SourceSansBold
-    GameNameLabel.Text = gameName
-    GameNameLabel.TextColor3 = Color3.new(1,1,1)
-    GameNameLabel.TextScaled = true
-    GameNameLabel.TextWrapped = true
+    local NewText = Instance.new("TextLabel")
+    NewText.Name = "NewText"
+    NewText.Parent = TopBar
+    NewText.Position = UDim2.new(0.145,0,0.199,0)
+    NewText.Size = UDim2.new(0.106,0,0.44444,0)
+    NewText.BackgroundTransparency = 1
+    NewText.Font = Enum.Font.SourceSansBold
+    NewText.Text = "|"
+    NewText.TextColor3 = Color3.new(1,1,1)
+    NewText.TextScaled = true
+    NewText.TextWrapped = true
+    local NewTextConstraint = Instance.new("UITextSizeConstraint")
+    NewTextConstraint.MaxTextSize = 20
+    NewTextConstraint.MinTextSize = 1
+    NewTextConstraint.Parent = NewText
+
+    local NewText2 = Instance.new("TextLabel")
+    NewText2.Name = "NewText2"
+    NewText2.Parent = TopBar
+    NewText2.Position = UDim2.new(0.169,0,0.222,0)
+    NewText2.Size = UDim2.new(0.252,0,0.444,0)
+    NewText2.BackgroundTransparency = 1
+    NewText2.Font = Enum.Font.SourceSansBold
+    NewText2.Text = gameName
+    NewText2.TextColor3 = Color3.new(1,1,1)
+    NewText2.TextScaled = true
+    NewText2.TextWrapped = true
+    local NewText2Constraint = Instance.new("UITextSizeConstraint")
+    NewText2Constraint.MaxTextSize = 20
+    NewText2Constraint.MinTextSize = 1
+    NewText2Constraint.Parent = NewText2
 
     local VersionText = Instance.new("TextLabel")
     VersionText.Name = "VersionText"
     VersionText.Parent = TopBar
-    VersionText.Position = UDim2.new(0.58,0,0,0)
-    VersionText.Size = UDim2.new(0.12,0,1,0)
+    VersionText.Position = UDim2.new(0.358,0,0.222,0)
+    VersionText.Size = UDim2.new(0.195,0,0.444,0)
     VersionText.BackgroundTransparency = 1
     VersionText.Font = Enum.Font.SourceSansBold
     VersionText.Text = version
     VersionText.TextColor3 = Color3.new(1,1,1)
     VersionText.TextScaled = true
     VersionText.TextWrapped = true
+    local VersionConstraint = Instance.new("UITextSizeConstraint")
+    VersionConstraint.MaxTextSize = 20
+    VersionConstraint.MinTextSize = 1
+    VersionConstraint.Parent = VersionText
 
-    local MiniButton = Instance.new("TextButton")
-    MiniButton.Name = "Mini"
-    MiniButton.Parent = TopBar
-    MiniButton.Position = UDim2.new(0.74,0,0.2,0)
-    MiniButton.Size = UDim2.new(0.06,0,0.6,0)
-    MiniButton.BackgroundColor3 = Color3.new(0,0,0)
-    MiniButton.BorderSizePixel = 0
-    MiniButton.Font = Enum.Font.SourceSansBold
-    MiniButton.Text = "-"
-    MiniButton.TextColor3 = Color3.new(1,1,1)
-    MiniButton.TextScaled = true
-    MiniButton.TextWrapped = true
-    MiniButton.MouseButton1Click:Connect(function()
-        Frame.Visible = not Frame.Visible
-    end)
+    local Logo = Instance.new("ImageLabel")
+    Logo.Name = "Logo"
+    Logo.Parent = TopBar
+    Logo.Position = UDim2.new(0.026,0,0.222,0)
+    Logo.Size = UDim2.new(0.024,0,0.444,0)
+    Logo.BackgroundTransparency = 1
+    Logo.Image = logo
 
     local CloseButton = Instance.new("TextButton")
     CloseButton.Name = "Close"
     CloseButton.Parent = TopBar
-    CloseButton.Position = UDim2.new(0.82,0,0.2,0)
-    CloseButton.Size = UDim2.new(0.06,0,0.6,0)
+    CloseButton.Position = UDim2.new(0.97333,0,0.43333,0)
+    CloseButton.Size = UDim2.new(0.03333,0,0.55555,0)
+    CloseButton.AnchorPoint = Vector2.new(0.5,0.5)
     CloseButton.BackgroundColor3 = Color3.new(0,0,0)
     CloseButton.BorderSizePixel = 0
     CloseButton.Font = Enum.Font.SourceSansBold
@@ -123,15 +136,40 @@ local function MakeWindow(config)
     CloseButton.TextColor3 = Color3.new(1,1,1)
     CloseButton.TextScaled = true
     CloseButton.TextWrapped = true
+    local CloseConstraint = Instance.new("UITextSizeConstraint")
+    CloseConstraint.MaxTextSize = 25
+    CloseConstraint.MinTextSize = 1
+    CloseConstraint.Parent = CloseButton
     CloseButton.MouseButton1Click:Connect(function()
         ScreenGui:Destroy()
+    end)
+
+    local MiniButton = Instance.new("TextButton")
+    MiniButton.Name = "Mini"
+    MiniButton.Parent = TopBar
+    MiniButton.Position = UDim2.new(0.92533,0,0.43333,0)
+    MiniButton.Size = UDim2.new(0.03333,0,0.55555,0)
+    MiniButton.AnchorPoint = Vector2.new(0.5,0.5)
+    MiniButton.BackgroundColor3 = Color3.new(0,0,0)
+    MiniButton.BorderSizePixel = 0
+    MiniButton.Font = Enum.Font.SourceSansBold
+    MiniButton.Text = "-"
+    MiniButton.TextColor3 = Color3.new(1,1,1)
+    MiniButton.TextScaled = true
+    MiniButton.TextWrapped = true
+    local MiniConstraint = Instance.new("UITextSizeConstraint")
+    MiniConstraint.MaxTextSize = 25
+    MiniConstraint.MinTextSize = 1
+    MiniConstraint.Parent = MiniButton
+    MiniButton.MouseButton1Click:Connect(function()
+        Frame.Visible = not Frame.Visible
     end)
 
     local TabPanel = Instance.new("Frame")
     TabPanel.Name = "Tabs"
     TabPanel.Parent = Frame
-    TabPanel.Position = UDim2.new(0,0,0.09,0)
-    TabPanel.Size = UDim2.new(0.25,0,0.91,0)
+    TabPanel.Position = UDim2.new(0,0,0.08228,0)
+    TabPanel.Size = UDim2.new(0.25115,0,0.91771,0)
     TabPanel.BackgroundTransparency = 1
     local TabLayout = Instance.new("UIListLayout")
     TabLayout.Parent = TabPanel
@@ -142,7 +180,7 @@ local function MakeWindow(config)
     local ContentFrame = Instance.new("Frame")
     ContentFrame.Name = "ContentFrame"
     ContentFrame.Parent = Frame
-    ContentFrame.Position = UDim2.new(0.625,0,0.54,0)
+    ContentFrame.Position = UDim2.new(0.62701,0,0.54011,0)
     ContentFrame.Size = UDim2.new(0.74,0,0.906,0)
     ContentFrame.AnchorPoint = Vector2.new(0.5,0.5)
     ContentFrame.BackgroundTransparency = 1
